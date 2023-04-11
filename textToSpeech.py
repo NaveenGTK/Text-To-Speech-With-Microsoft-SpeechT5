@@ -5,11 +5,11 @@ import tkinter
 from transformers import SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5HifiGan
 from datasets import load_dataset
 import torch
+import os
 import soundfile as sf
 import pygame
 from tkinter import *
 import customtkinter
-from datasets import load_dataset
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -22,8 +22,12 @@ root.geometry("500x400")
 pygame.mixer.init()# initialise the pygame
  
 def play():
-    pygame.mixer.music.load("speech.wav")
-    pygame.mixer.music.play(loops=0)
+    path = os.getcwd()
+    if os.path.isfile(path+'\speech.wav'):
+        pygame.mixer.music.load("speech.wav")
+        pygame.mixer.music.play(loops=0)
+    else:
+        tkinter.messagebox.showerror(title="ERROR!", message="No audio file detected. Enter text first!")
 
 def convertToAudio():
     pygame.mixer.music.unload()
